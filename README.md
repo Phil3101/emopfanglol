@@ -17,7 +17,6 @@ import getpass
 from optparse import OptionParser
 import subprocess
 import sleekxmpp
-from tkinter import * 
 
 global st
 
@@ -42,26 +41,21 @@ class empfang(sleekxmpp.ClientXMPP):
 
         # message handler
         self.add_event_handler("message", self.empfang)
-
+        # send handler
+        self.add_event_handler("nachricht_senden", self.nachricht_senden)
+        
+    def nachricht_senden(self):
+        name = input("Name: ")
+        nachricht = input("Nachricht: ")
+        self.send_message(name + "@ifga", nachricht)    
+        
     def start(self, event):
         # session start method
         self.send_presence()
         self.get_roster()
         print("startet")
 
-    def status(self, rechnen):
-        global rechnen
-        global st
-        if rechnen == True:
-            status = Tk()
-            g = Label(status, bg="green")
-            g.pack()
-            st = "beschäftigt."
-        else:
-            status = Tk()
-            r = Label(status, bg="red")
-            r.pack()
-            st = "arbeitslos."
+
         
 
 #    def hallo(self, msg):
@@ -74,6 +68,7 @@ class empfang(sleekxmpp.ClientXMPP):
 #message empfangen
     def empfang(self, msg):
         global st
+        st = "null"
         # process incoming messages
         print("NACHRICHT!")
         print(msg['body'])
