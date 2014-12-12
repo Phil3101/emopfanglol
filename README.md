@@ -41,7 +41,13 @@ class empfang(sleekxmpp.ClientXMPP):
 
         # message handler
         self.add_event_handler("message", self.empfang)
-
+        
+        self.add_event_handler("nachricht_senden", self.nachricht_senden)
+    def nachricht_senden(self):
+        name = input("Name: ")
+        nachricht = input("Nachricht: ")
+        self.send_message(name + "@ifga", nachricht)
+        
     def start(self, event):
         # session start method
         self.send_presence()
